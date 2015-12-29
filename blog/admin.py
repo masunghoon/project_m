@@ -1,10 +1,8 @@
 from flask import Blueprint, request, redirect, render_template, url_for
 from flask.views import MethodView
-
 from flask.ext.mongoengine.wtf import model_form
-
-from app.auth import requires_auth
-from app.models import Post, BlogPost, Video, Image, Quote, Comment
+from .auth import requires_auth
+from .models import Post, BlogPost, Video, Image, Quote, Comment
 
 admin = Blueprint('admin', __name__, template_folder='templates')
 
@@ -31,7 +29,7 @@ class Detail(MethodView):
         if slug:
             post = Post.objects.get_or_404(slug=slug)
             cls = post.__class__ if post.__class__ != Post else BlogPost
-            form_cls = model_form(Post, exclude=('created_at', 'comments'))
+            form_cls = model_form(cls, exclude=('created_at', 'comments'))
             if request.method == 'POST':
                 form = form_cls(request.form, inital=post._data)
             else:
