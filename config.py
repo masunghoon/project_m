@@ -9,4 +9,3 @@ MONGODB_SETTINGS = {'DB': 'project_m'}
 
 # administrator list
 ADMINS = ['masunghoon@gmail.com']
-

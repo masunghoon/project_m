@@ -1,18 +1,18 @@
-from flask import Blueprint, render_template, flash, redirect, session, url_for, request, g
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask.views import MethodView
 from flask.ext.mongoengine.wtf import model_form
 from .models import Post, Comment
-from datetime import datetime
 
 posts = Blueprint('posts', __name__, template_folder='templates')
+
 
 class ListView(MethodView):
     def get(self):
         posts = Post.objects.all()
         return render_template('posts/list.html', posts=posts)
 
+
 class DetailView(MethodView):
-    
     form = model_form(Comment, exclude=['created_at'])
 
     def get_context(self, slug):
@@ -23,7 +23,7 @@ class DetailView(MethodView):
             "post": post,
             "form": form
         }
-        
+
         return context
 
     def get(self, slug):
@@ -46,7 +46,6 @@ class DetailView(MethodView):
         return render_template('posts/detail.html', **context)
 
 
-#routing
+# routing
 posts.add_url_rule('/', view_func=ListView.as_view('list'))
 posts.add_url_rule('/<slug>/', view_func=DetailView.as_view('detail'))
-    

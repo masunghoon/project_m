@@ -4,9 +4,10 @@ from flask.views import MethodView
 from flask.ext.mongoengine.wtf import model_form
 
 from app.auth import requires_auth
-from app.models import Post, BlogPost, Video, Image, Quote, Comment 
+from app.models import Post, BlogPost, Video, Image, Quote, Comment
 
 admin = Blueprint('admin', __name__, template_folder='templates')
+
 
 class List(MethodView):
     decorators = [requires_auth]
@@ -27,7 +28,6 @@ class Detail(MethodView):
     }
 
     def get_context(self, slug=None):
-
         if slug:
             post = Post.objects.get_or_404(slug=slug)
             cls = post.__class__ if post.__class__ != Post else BlogPost
@@ -49,12 +49,10 @@ class Detail(MethodView):
         }
         return context
 
-
     def get(self, slug):
         context = self.get_context(slug)
         return render_template('admin/detail.html', **context)
 
-    
     def post(self, slug):
         context = self.get_context(slug)
         form = context.get('form')
@@ -71,4 +69,3 @@ class Detail(MethodView):
 admin.add_url_rule('/admin/', view_func=List.as_view('index'))
 admin.add_url_rule('/admin/create/', defaults={'slug': None}, view_func=Detail.as_view('create'))
 admin.add_url_rule('/admin/<slug>/', view_func=Detail.as_view('edit'))
-

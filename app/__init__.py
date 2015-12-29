@@ -8,6 +8,7 @@ app.config.from_object('config')
 
 db = MongoEngine(app)
 
+
 def register_blueprints(app):
     from app.views import posts
     from app.admin import admin
