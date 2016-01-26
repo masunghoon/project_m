@@ -1,0 +1,6 @@
+flask
+flask-script
+flask_mongoengine
+WTForms
+mongoengine==0.10.1
+
