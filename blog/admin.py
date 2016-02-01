@@ -63,6 +63,11 @@ class Detail(MethodView):
             return redirect(url_for('admin.index'))
         return render_template('admin/detail.html', **context)
 
+    def delete(self, slug):
+        context = self.get_context(slug)
+        post = context.get('post')
+        post.delete()
+
 
 admin.add_url_rule('/admin/', view_func=List.as_view('index'))
 admin.add_url_rule('/admin/create/', defaults={'slug': None}, view_func=Detail.as_view('create'))
